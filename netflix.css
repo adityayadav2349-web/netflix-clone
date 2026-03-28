@@ -1,17 +1,66 @@
+/* ─────────────────────────────────────────
+   Netflix Clone  ·  filter.css  (redesign)
+   Cinematic · Dark · Dramatic
+───────────────────────────────────────── */
+
+:root {
+  --red:        #e50914;
+  --red-glow:   rgba(229, 9, 20, 0.55);
+  --dark:       #05081C;
+  --card-bg:    linear-gradient(145deg, #160826 0%, #220d18 100%);
+  --glass:      rgba(8, 4, 18, 0.75);
+  --border:     rgba(255, 255, 255, 0.08);
+  --text:       #f2ecff;
+  --muted:      rgba(242, 236, 255, 0.52);
+  --font-display: 'Bebas Neue', cursive;
+  --font-body:    'DM Sans', sans-serif;
+}
+
+/* ── RESET ── */
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
+
+/* ── BODY ── */
 body {
-  background: #05081C url("https://cdn.mos.cms.futurecdn.net/rDJegQJaCyGaYysj2g5XWY.jpg") no-repeat top center/cover fixed;
+  background: var(--dark)
+    url("https://cdn.mos.cms.futurecdn.net/rDJegQJaCyGaYysj2g5XWY.jpg")
+    no-repeat top center / cover fixed;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: system-ui, sans-serif;
-  color: #fff;
+  font-family: var(--font-body);
+  color: var(--text);
+  overflow-x: hidden;
 }
+
+/* Cinematic layered overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% 0%,
+      rgba(229, 9, 20, 0.18) 0%,
+      transparent 65%),
+    linear-gradient(to bottom,
+      rgba(5, 8, 28, 0.45) 0%,
+      rgba(5, 8, 28, 0.78) 45%,
+      rgba(5, 8, 28, 0.97) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+header, section, footer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* ── NAVBAR ── */
 .navbar {
   width: 100%;
   max-width: 1100px;
@@ -19,45 +68,94 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
+  margin: 0 auto;
 }
+
 .navbar img {
   height: 100px;
   width: auto;
+  filter: drop-shadow(0 0 22px var(--red-glow));
+  transition: filter 0.35s ease, transform 0.35s ease;
 }
+.navbar img:hover {
+  filter: drop-shadow(0 0 36px rgba(229, 9, 20, 0.9));
+  transform: scale(1.03);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .navbar select,
 .navbar button {
   height: 36px;
   width: 100px;
-  border: 1px solid #fff;
+  border: 1px solid var(--border);
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.55);
   color: #fff;
   cursor: pointer;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
 }
+
 .navbar button {
-  background: #e50914;
+  background: var(--red);
+  border-color: transparent;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
-.navbar select:hover,
+
+.navbar select:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
 .navbar button:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 24px var(--red-glow);
+  background: #ff1020;
 }
+
+/* ── HERO / MAIN ── */
 .main {
   text-align: center;
   margin: 6rem 1rem 2rem;
-  animation: fadeIn 1s ease;
+  animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
 .main h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.6));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
 }
+
 .main h3 {
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.65rem);
   margin-top: 1rem;
+  color: var(--text);
+  font-weight: 300;
+  letter-spacing: 0.02em;
 }
+
 .main h4 {
-  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-size: clamp(0.88rem, 1.8vw, 1.15rem);
   margin-top: 1.5rem;
+  color: var(--muted);
+  font-weight: 300;
 }
+
+/* ── INPUT ROW (hero + footer) ── */
 .input,
 .meta {
   display: flex;
@@ -66,42 +164,65 @@ body {
   flex-wrap: wrap;
   margin: 1rem 0;
 }
+
 .input input,
 .meta input {
   height: 48px;
   width: clamp(280px, 50vw, 450px);
-  padding: 0 1rem;
-  border: 1px solid #fff;
+  padding: 0 1.2rem;
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
+.input input:focus,
+.meta input:focus {
+  border-color: rgba(229,9,20,0.6);
+  box-shadow: 0 0 0 3px rgba(229,9,20,0.15);
+}
+
 .input button,
 .meta button {
   height: 48px;
   width: 160px;
   border: none;
   border-radius: 4px;
-  background: #e50914;
+  background: var(--red);
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 .input button:hover,
 .meta button:hover {
-  background: #f40612;
+  background: #ff1020;
   transform: scale(1.05);
+  box-shadow: 0 6px 28px var(--red-glow);
 }
+
+/* ── TRENDING HEADING ── */
 .full {
   width: 100%;
   text-align: center;
   margin: 3rem 0 1rem;
 }
+
 .full h2 {
-  font-size: clamp(2rem, 4vw, 3rem);
-  color: #e50914;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  letter-spacing: 0.08em;
+  color: var(--red);
+  text-shadow: 0 0 40px rgba(229,9,20,0.4);
 }
+
+/* ── POSTER GRID ── */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -111,30 +232,61 @@ body {
   gap: 1.5rem;
   padding: 1rem;
 }
+
 .container div {
-  height: 200px;
-  width: 200px;
-  border: 1px solid #fff;
-  border-radius: 4px;
+  height: 350px;
+  width: 300px;
+  border: 0px solid #fff;
+  border-radius: 6px;
   overflow: hidden;
-  transition: transform 0.4s, box-shadow 0.4s;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease;
+  position: relative;
+}
+
+/* Subtle red glow border on hover */
+.container div::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: border-color 0.35s ease;
+  pointer-events: none;
 }
 .container div:hover {
   transform: scale(1.1);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.7), 0 0 30px rgba(229,9,20,0.25);
 }
+.container div:hover::after {
+  border-color: rgba(229,9,20,0.55);
+}
+
 .container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  background-attachment:fixed;
+  background-attachment: fixed;
+  transition: filter 0.4s ease;
 }
+.container div:hover img {
+  filter: brightness(1.08) saturate(1.1);
+}
+
+/* ── MORE REASONS HEADING ── */
 .end {
   text-align: center;
   margin: 3rem 0 1rem;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
 }
+
+.end h2 {
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+
+/* ── FEATURE CARDS ── */
 .start {
   width: 100%;
   max-width: 1200px;
@@ -144,45 +296,100 @@ body {
   gap: 1.5rem;
   padding: 1rem;
 }
+
 .start > div {
-  flex: 1 1 220px;
+  flex: 1 1 250px;
   max-width: 260px;
-  padding: 1.5rem 1rem;
-  background: linear-gradient(#291942, #301b20);
+  padding: 1.8rem 1.2rem;
+  background: var(--card-bg);
   border-radius: 8px;
   text-align: center;
-  transition: transform 0.3s;
+  border: 1px solid var(--border);
+  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.3s;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Glint sweep on card hover */
+.start > div::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -75%;
+  width: 50%;
+  height: 220%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.06), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.55s ease;
+}
+.start > div:hover::before {
+  left: 140%;
+}
+
 .start > div:hover {
   transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 25px rgba(229,9,20,0.15);
+  border-color: rgba(229,9,20,0.3);
 }
+
 .start i {
   font-size: 2rem;
   margin-top: 1rem;
+  color: var(--red);
+  filter: drop-shadow(0 0 10px var(--red-glow));
 }
+
+.start > div p:first-child {
+  font-size: 20px;
+  padding-top: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.start > div p:nth-child(2) {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin-top: 0.5rem;
+}
+
+/* ── FOOTER ── */
 footer {
   width: 100%;
   text-align: center;
   padding: 3rem 1rem 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
 }
-footer p {
-  font-size: clamp(1.2rem, 2.5vw, 2rem);
+
+footer > p {
+  font-size: clamp(1.1rem, 2.2vw, 1.75rem);
   margin-bottom: 1rem;
+  color: var(--text);
+  font-weight: 300;
 }
+
 #bull {
-  font-size: 1rem;
-  opacity: 0.7;
+  font-size: 0.85rem;
+  opacity: 0.45;
+  margin-top: 1.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
-@keyframes fadeIn {
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(28px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
+/* ── RESPONSIVE ── */
 @media (max-width: 600px) {
   .navbar {
     flex-direction: column;
@@ -190,5 +397,9 @@ footer p {
   }
   .main {
     margin-top: 4rem;
+  }
+  .nav-right {
+    flex-direction: row;
+    gap: 0.5rem;
   }
 }
