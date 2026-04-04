@@ -1,7 +1,3 @@
-/* ─────────────────────────────────────────
-   Netflix Clone  ·  filter.css  (redesign)
-   Cinematic · Dark · Dramatic
-───────────────────────────────────────── */
 
 :root {
   --red:        #e50914;
@@ -16,7 +12,7 @@
   --font-body:    'DM Sans', sans-serif;
 }
 
-/* ── RESET ── */
+
 * {
   padding: 0;
   margin: 0;
@@ -37,7 +33,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Cinematic layered overlay */
 body::before {
   content: '';
   position: fixed;
@@ -243,7 +238,6 @@ header, section, footer {
   position: relative;
 }
 
-/* Subtle red glow border on hover */
 .container div::after {
   content: '';
   position: absolute;
@@ -273,7 +267,6 @@ header, section, footer {
   filter: brightness(1.08) saturate(1.1);
 }
 
-/* ── MORE REASONS HEADING ── */
 .end {
   text-align: center;
   margin: 3rem 0 1rem;
@@ -310,7 +303,6 @@ header, section, footer {
   overflow: hidden;
 }
 
-/* Glint sweep on card hover */
 .start > div::before {
   content: '';
   position: absolute;
@@ -377,7 +369,6 @@ footer > p {
   text-transform: uppercase;
 }
 
-/* ── ANIMATIONS ── */
 @keyframes fadeUp {
   from {
     opacity: 0;
